@@ -4,9 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Welcome to Your Dashboard</h1>
-    <p>Your personal dashboard content goes here.</p>
+    
+    <!-- Option 1: Upload Multiple Images -->
+    <div>
+        <h2>Upload Multiple Images</h2>
+        <form id="uploadForm" enctype="multipart/form-data" onsubmit="return handleImageUpload(event)">
+            <label for="imageUpload">Choose images to upload:</label>
+            <input type="file" id="imageUpload" name="imageUpload" accept="image/*" multiple required>
+            <button type="submit">Upload Images</button>
+        </form>
+        <p id="uploadMessage" style="color: green; display: none;">Images uploaded successfully!</p>
+        <div id="imagePreviews" style="display: none;">
+            <h3>Image Previews:</h3>
+            <div id="previewContainer"></div>
+        </div>
+    </div>
+    
+    <!-- Option 2: Download Image -->
+    <div>
+        <h2>Download Image</h2>
+        <a id="downloadLink" href="#" download="sample-image.jpg">
+            <button>Download Sample Image</button>
+        </a>
+    </div>
+
+    <script>
+        // Handle Multiple Image Upload
+        function handleImageUpload(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const imageFiles = document.getElementById('imageUpload').files;
+            if (imageFiles.length > 0) {
+                // Show success message
+                document.getElementById('uploadMessage').style.display = "block";
+
+                // Display previews of uploaded images
+                const previewContainer = document.getElementById('previewContainer');
+                previewContainer.innerHTML = ''; // Clear any existing previews
+
+                for (let i = 0; i < imageFiles.length; i++) {
+                    const file = imageFiles[i];
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = e.target.result;
+                        imgElement.style.width = '100px'; // Set a fixed size for preview
+                        imgElement.style.margin = '10px';
+                        previewContainer.appendChild(imgElement);
+                    }
+
+                    reader.readAsDataURL(file);
+                }
+
+                // Display the preview section
+                document.getElementById('imagePreviews').style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>

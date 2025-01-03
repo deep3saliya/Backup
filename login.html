@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Login</h1>
-    <form action="dashboard.html" method="POST">
+    <form id="loginForm" onsubmit="return validateLogin(event)">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br>
@@ -16,5 +17,33 @@
         <br>
         <button type="submit">Login</button>
     </form>
+    <p id="error-message" style="color: red; display: none;">Invalid username or password</p>
+
+    <script>
+        // Simple login validation
+        function validateLogin(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Define valid users
+            const validUsers = [
+                { username: "deep", password: "deep4533" },
+                { username: "nisha", password: "nisha4533" }
+            ];
+
+            // Check if the entered username and password are valid
+            const user = validUsers.find(user => user.username === username && user.password === password);
+
+            if (user) {
+                // Redirect to dashboard if login is successful
+                window.location.href = "dashboard.html";
+            } else {
+                // Show error message if login is invalid
+                document.getElementById('error-message').style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>
